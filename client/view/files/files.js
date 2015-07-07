@@ -16,16 +16,18 @@ Template.files.helpers({
   isDir: function(type) {
     if(type==='DIR') return true;
   },
+  /* returns background color for row based on file properties */
   getStatusColor: function(deleted, changed, recreated) {
     if(deleted) return 'red';
     if(changed) return 'yellow';
+    // TODO- I had tried indicating a file had been created that had been previously deleted 
+    // and indicate as blue, but haven't gotten that working yet
     if(recreated) return 'blue';
     return 'white';
   },
+  // TODO- this isn't working yet
   watchLoc: function() { 
-        // Assume there is only one campaign document - if there are more, then the find will have to select the correct one 
-        // The document within the campaigns collection should have a property named 'count' 
-        var watchLocation = WatchLocation.findOne({_id:'123'});//  //'userId':Meteor.userId()}); 
+        var watchLocation = WatchLocation.findOne({_id:'123'});  //'userId':Meteor.userId()}); 
         if (!watchLocation) { 
                 // Create one if there isn't already one 
                 watchLocation = {val:'/tmp4'}; 
@@ -53,9 +55,6 @@ Template.files.events({
     //         watchLocation = {_id:'1', val:'/tmp6'}; 
     //         WatchLocation.insert(watchLocation); 
     // } 
-    // Increment the count property 
-//    WatchLocation.update({},{$inc:{count:1}}); 
-    // WatchLocation.update({_id:1},val:'/tmp5'); 
 	WatchLocation.update('123', {$set: {val: value}});
   }
 });

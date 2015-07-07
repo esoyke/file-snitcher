@@ -1,7 +1,7 @@
 FlowRouter.route('/', {
-  name: 'home',
+  name: 'files',
   action: function(params) {
-    FlowLayout.render('home');
+    FlowLayout.render('files');
   }
 });
 
