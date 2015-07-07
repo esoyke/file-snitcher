@@ -8,3 +8,30 @@
 .deleted {
 	background: red;
 }
+
+.logoHeader {
+	overflow: auto;
+}
+.logoHeader img {
+  float: left;
+  width: 75px;
+  height: 40px;
+  margin-top: 17px;
+}
+
+.logoHeader h1 {
+	width: 220px;
+  float: left;
+}
+
+/*html {
+     Size of largest container or bigger 
+    min-width: 1080px;
+}*/
+.container {
+	min-width: 1200px;
+/*	margin-left: 50px;
+	margin-right: 50px;*/
+	margin-left: auto;
+	margin-right: auto;
+}

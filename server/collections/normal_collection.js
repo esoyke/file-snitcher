@@ -25,7 +25,7 @@ NormalCollection.deny({
   }
 });
 
-
+/*
 WatchLocCollection.allow({
   insert: function (userId, doc) {
     return true;
@@ -52,3 +52,4 @@ WatchLocCollection.deny({
     return false;
   }
 });
+*/

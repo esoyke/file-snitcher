@@ -8,9 +8,11 @@ File Snitcher records when files are added, changed, or removed, as well as the 
 Clone repo, set desired watch directory in getFolder() method in server/publish/files.js, fire up meteor and browse to localhost:3000. Changed files display as yellow, deleted as red.
 
 ## TODO:
+* Persist history, regardless of there being a client or not
 * Make watch directory configurable from client
 * Allow specification of excluded sub-directories
 * Switch user listing to tooltips
 
 ## Issues:
+* Re-created files (file deleted then created) only reflecting change after a SECOND touch?
 * May not display multiple users correctly (still need to test this condition)

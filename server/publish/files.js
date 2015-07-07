@@ -29,6 +29,10 @@ Meteor.publish('files', function() {
    *
    * TODO- allow specification of excluded directory(ies). For instance I don't
    * care to see every file changed/deleted in JBoss' /tmp or /work dirs.
+   *
+   * TODO- do not add loggedInUsers for items discovered at startup- we want to 
+   * know who may have deleted or changed a file and knowing who was logged in
+   * at startup time provides no value.
    */
   watcher.on('add', Meteor.bindEnvironment(function(path, stats) {
     console.log('Adding file: '+path);
@@ -81,12 +85,12 @@ Meteor.publish('files', function() {
     watcher.close();
   });
 
-  /*
+  /* 
   * Returns the user(s) logged into the system at time of the call (*nix only)
   */
   getUsers = function(){
     var res = async.exec("who| sed 's/|/ /' | awk '{print $1, $8}'|uniq");
-    var users = res.stdout.replace(/(\r\n|\n|\r)/gm,"");
+    var users = res.stdout.replace(/(\r\n|\n|\r)/gm," ");
     return users;
   }
 
@@ -95,6 +99,6 @@ Meteor.publish('files', function() {
 
 // TODO- get this working or shitcan it. Also need to be sure the update 
 //to server only affects that user's session. Investigate server sessions.
-Meteor.publish('watchLocation', function() {
-   return WatchLocCollection.find();
-});
+// Meteor.publish('watchLocation', function() {
+//    return WatchLocCollection.find();
+// });
