@@ -28,12 +28,18 @@ Meteor.publish('files', function() {
    * tasks.
    *
    * TODO- allow specification of excluded directory(ies). For instance I don't
-   * care to see every file changed/deleted in JBoss' /tmp or /work dirs.
+   * care to see every file changed/deleted in JBoss' /tmp or /work dirs. This
+   * should be configurable by changing the ignored param of the chokidar watcher.
    *
-   * TODO- do not add loggedInUsers for items discovered at startup- we want to 
-   * know who may have deleted or changed a file and knowing who was logged in
-   * at startup time provides no value.
    */
+
+  /* I suspect there might be a bug in the chokidar library. When I rm a file, then
+   * touch it again, even though the file is 'added', the raw event info still says 'deleted'
+   * and it is not reflected on the client that it was re-added until a second touch is done.
+   */
+  //watcher.on('raw', function(event, path, details) { log('Raw event info:', event, path, details); })
+
+
   watcher.on('add', Meteor.bindEnvironment(function(path, stats) {
     console.log('Adding file: '+path);
       var loggedInUsers = getUsers();
@@ -44,6 +50,8 @@ Meteor.publish('files', function() {
         accessed_on: stats && stats.atime ? stats.atime : fs.statSync(path).atime,
         contents: stats && stats.isFile() ? fs.readFileSync(path) : null,
         loggedInUsers: loggedInUsers  });
+      // the reason we are not seeing a re-created file until it has been touched TWICE
+      // is that for some weird reason the server is not publishing it the first time??
   }, function(err) { console.log(err); }));
 
   watcher.on('addDir', Meteor.bindEnvironment(function(path, stats) {
@@ -78,7 +86,11 @@ Meteor.publish('files', function() {
   }, function(err) { console.log(err); }));
 
   watcher.on('unlinkDir', Meteor.bindEnvironment(function(path) {
-    self.removed('files', path);
+    // self.removed('files', path);
+    self.changed('files', path, {
+      'type': 'DIR',
+      deleted: Date(),
+      loggedInUsers: loggedInUsers });
   }, function(err) { console.log(err); }));
 
   self.onStop(function() {

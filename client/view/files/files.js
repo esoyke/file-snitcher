@@ -25,8 +25,13 @@ Template.files.helpers({
   },
   /* returns background color for row based on file properties */
   getStatusColor: function(deleted, changed, created_on) {
+    var tmpCreated = new Date(created_on);
+    var tmpChanged = new Date(changed);
+    var tmpDeleted = new Date(deleted);
     // indicate file was re-created after deletion- can get rid of the recreated variable
-    if(deleted && changed && changed>deleted) return 'lightblue';
+    log('deleted: '+deleted+', changed: '+changed+', created_on: '+created_on);
+    // if(deleted && changed && changed>deleted) return 'lightblue';
+    if(tmpDeleted && tmpChanged.getTime()>tmpDeleted.getTime()) return 'lightblue';
     if(deleted) return 'red';
     if(changed) return 'yellow';
     // was running into weirdness unless I compared the time rather than date
