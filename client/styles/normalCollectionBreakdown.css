@@ -9,8 +9,22 @@
 	background: red;
 }
 
+.legend {
+	float: left;
+	margin-left: 15px;
+	margin-top: 110px;
+}
+.legend svg {
+	margin-top: 10px;
+}
+.legend label {
+	vertical-align: 50%;
+	margin-left: 6px;
+}
+
 .logoHeader {
 	overflow: auto;
+	/*margin-left: -150px;*/
 }
 .logoHeader img {
   float: left;
@@ -34,4 +48,8 @@
 	margin-right: 50px;*/
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.row {
+	margin-top: 20px;
 }
