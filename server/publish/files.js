@@ -13,10 +13,6 @@ Meteor.publish('files', function() {
   // value specific to the user requesting it
   var getFolder = function getFolder() {
    return '/tmp2';
-   //  console.log(WatchLocCollection.find({_id:'1234'}));
-   //  return WatchLocCollection.find({_id:'1234'}).val;
-   //  return globalWatchLocation;
-   //  return watchLocation;
   }
 
   //var folderLoc = chokidar.watch(globalWatchLocation, {
