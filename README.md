@@ -7,7 +7,7 @@ File Snitcher records when files are added, changed, or removed, as well as the 
 ## Usage
 Clone repo, set desired watch directory in getFolder() method in server/publish/files.js, fire up meteor and browse to localhost:3000. 
 
-Newly created files/directories display as <span style="color:green">green</span>, changed as <span style="color:yellow">yellow</span>, deleted as <span style="color:red">red</span>, and those re-created (deleted then re-added and/or changed) as <span style="color:lightblue">lightblue</span>.
+Newly created files/directories display as <span style="color:green">green</span>, changed as <span style="color:yellow">yellow</span>, deleted as <span style="color:red">red</span>, and those re-created (deleted then re-added and/or changed) as <span style="color:lightblue">lightblue</span>.<br>
 <img src="public/legend-info.png"/>
 
 ## TODO:
