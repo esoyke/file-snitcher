@@ -1,0 +1,10 @@
+.scroll-450 {
+  height: 450px;
+  overflow-y: auto;
+}
+.textRed {
+	background: red;
+}
+.deleted {
+	background: red;
+}

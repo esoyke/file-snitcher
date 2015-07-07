@@ -1,0 +1,56 @@
+
+
+<template name="files">
+  <div class="container">
+    <h1>File Snitcher</h1>
+    <!-- TODO- enhance to pass desired watch directory to server
+    <h2>Watching Folder:</h2>
+    <input id='folderLoc' type='text' value={{watchLoc.val}}>-->
+    
+    <!--<a href="{{pathFor 'home'}}">Back to Home</a>-->
+
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-condensed table-striped">
+          <thead>
+            <tr data-tooltip="TOOL TIP!">
+              <th class="col-md-3">Path</th>
+              <th class="col-md-2">Created On</th>
+              <th class="col-md-2">Modified On</th>
+              <th class="col-md-2">Last Accessed</th>
+              <!-- <th>Type</th> -->
+              <th class="col-md-2">Deleted</th>
+              <th class="col-md-2">Users</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each files}}
+            <!-- kind of cheesy I am passing 3 different values here to determine color-->
+              <tr class="status" style="background-color:{{getStatusColor deleted changed recreated}}">
+                <td>
+                 {{#if isDir type}}
+                   <!-- <img src='../images/folder_sm.jpeg' height='50' width='50'> -->
+                    <img src='https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRdpf35ywYlwHFP-JfX_p8zMldUo-2K9pBv6beqSw1ddi3PfLxUEM7Cpw' height=20 width=20> 
+                  {{/if}}
+                  {{_id}}
+                </td>                
+                <td>{{created_on}}</td>
+                <td>{{modified_on}}</td>
+                <td>{{accessed_on}}</td>
+                <td>{{deleted}}</td>
+                <td>{{loggedInUsers}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<!-- This isn't working?? -->
+<p>
+  <button data-tooltip="I'm a tooltip!">Tooltip test</button>
+</p>
+  {{ > tooltips }}
+
+</template>

@@ -1,0 +1,50 @@
+
+
+<template name="file">
+  <div class="container">
+    <h2>Collection of File Info</h2>
+
+    <a href="{{pathFor 'home'}}">Back to Home</a>
+
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-condensed table-striped">
+          <thead>
+            <tr>
+              <th>Pa-th..</th>
+              <th>Created On</th>
+              <th>Modified On</th>
+              <th>Last Accessed</th>
+              <th>Type</th>
+              <th>Deleted</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each files}}
+            <!-- {{>status}} -->
+<!--                   <tr class="{{deleted ? 'textRed' : ''}}">   -->
+<!-- <tr class="status" style="color:{{getStatusColor deleted}}"> -->
+<!-- <img src='../images/folder_sm.jpeg' height='50' width='50'> -->
+              <tr>
+                <td>HI {{_id}}</td>
+                <td>{{created_on}}</td>
+                <td>{{modified_on}}</td>
+                <td>{{accessed_on}}</td>
+                <td>{{type}}</td>
+                <td>{{deleted}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- <template name="status">
+    {{#if isDeleted}}
+                  <tr class="deleted">   
+    {{else}}
+                  <tr>   
+    {{/if}}
+</template> -->
