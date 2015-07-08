@@ -24,30 +24,29 @@ Template.files.helpers({
     if(type==='DIR') return true;
   },
   /* returns background color for row based on file properties */
-  getStatusColor: function(deleted, changed, created_on) {
-    var tmpCreated = new Date(created_on);
-    var tmpChanged = new Date(changed);
-    var tmpDeleted = new Date(deleted);
+  getStatusColor: function(file) {
+    var tmpCreated = new Date(file.created_on);
+    var tmpChanged = new Date(file.changed);
+    var tmpDeleted = new Date(file.deleted);
     // indicate file was re-created after deletion- can get rid of the recreated variable
-    log('deleted: '+deleted+', changed: '+changed+', created_on: '+created_on);
-    // if(deleted && changed && changed>deleted) return 'lightblue';
+    //log('deleted: '+deleted+', changed: '+changed+', created_on: '+created_on);
     if(tmpDeleted && tmpChanged.getTime()>tmpDeleted.getTime()) return 'lightblue';
-    if(deleted) return 'red';
-    if(changed) return 'yellow';
+    if(file.deleted) return 'red';
+    if(file.changed) return 'yellow';
     // was running into weirdness unless I compared the time rather than date
-    var tmp = new Date(created_on);
+    var tmp = new Date(file.created_on);
     if(startupTime.getTime() < tmp.getTime()) return 'green';
     return 'white';
   },
   /* Returns user list to display ONLY if the date of the action occurred since the app loaded */
-  displayUsers: function(userList, deleted, changed, created_on){
-    var tmpCreated = new Date(created_on);
-    var tmpChanged = new Date(changed);
-    var tmpDeleted = new Date(deleted);
+  displayUsers: function(file){
+    var tmpCreated = new Date(file.created_on);
+    var tmpChanged = new Date(file.changed);
+    var tmpDeleted = new Date(file.deleted);
     // same as in the getStatusColor helper- weirdness unless I compared the times
-    if((deleted && (startupTime.getTime()<tmpDeleted.getTime())) || (changed && (startupTime.getTime()<tmpChanged.getTime())) ||
+    if((file.deleted && (startupTime.getTime()<tmpDeleted.getTime())) || (file.changed && (startupTime.getTime()<tmpChanged.getTime())) ||
         startupTime.getTime()<tmpCreated.getTime()) {
-      return userList;      
+      return file.loggedInUsers;      
     }
   },
   // TODO- this isn't working yet

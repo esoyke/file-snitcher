@@ -30,7 +30,6 @@
         <img src="/pointing.jpeg">
       </div>
 
-    <!-- <span><h1>File Snitcher</h1><img src="/pointing.jpeg" height='50' width='70'></span> -->
     <!-- TODO- enhance to pass desired watch directory to server
     <h2>Watching Folder:</h2>
     <input id='folderLoc' type='text' value={{watchLoc.val}}>-->    
@@ -51,11 +50,10 @@
           </thead>
           <tbody>
             {{#each files}}
-            <!-- kind of cheesy I am passing 3 different values here to determine color, how to pass whole object?-->
-              <tr class="status" style="background-color:{{getStatusColor deleted changed created_on}}">
+              <tr class="status" style="background-color:{{getStatusColor this}}">
                 <td>
                  {{#if isDir type}}
-                    <img src='/folder_sm.jpeg' height='20' width='20'> 
+                    <img src='/folder_sm2.jpg' height='15' width='20'> 
                   {{/if}}
                   {{_id}}
                 </td>                
@@ -63,7 +61,7 @@
                 <td>{{modified_on}}</td>
                 <td>{{accessed_on}}</td>
                 <td>{{deleted}}</td>
-                <td>{{displayUsers loggedInUsers deleted changed created_on}}</td>
+                <td>{{displayUsers this}}</td>
               </tr>
             {{/each}}
           </tbody>

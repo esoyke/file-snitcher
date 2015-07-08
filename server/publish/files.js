@@ -55,12 +55,14 @@ Meteor.publish('files', function() {
   }, function(err) { console.log(err); }));
 
   watcher.on('addDir', Meteor.bindEnvironment(function(path, stats) {
+    var loggedInUsers = getUsers();
     self.added('files', path, {
       'type': 'DIR',
       created_on: stats && stats.ctime ? stats.ctime : fs.statSync(path).ctime,
       modified_on: stats && stats.mtime ? stats.mtime : fs.statSync(path).mtime,
       accessed_on: stats && stats.atime ? stats.atime : fs.statSync(path).atime,
-      contents: null });
+      contents: null,
+      loggedInUsers: loggedInUsers });
   }, function(err) { console.log(err); }));
 
   watcher.on('change', Meteor.bindEnvironment(function(path, stats) {
@@ -77,7 +79,7 @@ Meteor.publish('files', function() {
 
   watcher.on('unlink', Meteor.bindEnvironment(function(path) {
     console.log('Deleted file: '+path);
-        var loggedInUsers = getUsers();
+    var loggedInUsers = getUsers();
      // rather than remove, we actually set as changed to forensically retain it
      self.changed('files', path, {
       'type': 'FILE',
@@ -86,6 +88,8 @@ Meteor.publish('files', function() {
   }, function(err) { console.log(err); }));
 
   watcher.on('unlinkDir', Meteor.bindEnvironment(function(path) {
+    console.log('Deleted dir: '+path);
+    var loggedInUsers = getUsers();
     // self.removed('files', path);
     self.changed('files', path, {
       'type': 'DIR',
