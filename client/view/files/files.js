@@ -1,8 +1,5 @@
-  var log = console.log.bind(console);
+var log = console.log.bind(console);
 
-/**
- * files Template lifecycle methods
- */
 Template.files.onCreated(function() {
   this.subscribe('files');
   this.subscribe('watchLocation/all');
@@ -61,7 +58,12 @@ Template.files.helpers({
         	console.log('found val='+watchLocation.val);
         }
         return watchLocation; 
-  } 
+  },
+  /* Wed Jul 08 2015 05:30:01 pm*/
+  simpleDate: function(dateIn) {
+    if(!dateIn) return '';
+    return moment(dateIn).format('ddd MMM DD YYYY hh:mm:ss a');
+  }
 
 });
 

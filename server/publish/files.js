@@ -1,7 +1,7 @@
 // npm install execSync
 // meteor add lookback:tooltips
 
-async = Npm.require('execSync');
+sync = Npm.require('execSync');
 fs = Npm.require('fs');
 
 Meteor.publish('files', function() {
@@ -105,7 +105,7 @@ Meteor.publish('files', function() {
   * Returns the user(s) logged into the system at time of the call (*nix only)
   */
   getUsers = function(){
-    var res = async.exec("who| sed 's/|/ /' | awk '{print $1, $8}'|uniq");
+    var res = sync.exec("who| sed 's/|/ /' | awk '{print $1, $8}'|uniq");
     var users = res.stdout.replace(/(\r\n|\n|\r)/gm," ");
     return users;
   }

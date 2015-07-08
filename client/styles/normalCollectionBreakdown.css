@@ -10,9 +10,9 @@
 }
 
 .legend {
-	float: left;
+	float: right;	
 	margin-left: 15px;
-	margin-top: 110px;
+	margin-top: 10px;
 }
 .legend svg {
 	margin-top: 10px;
@@ -20,11 +20,11 @@
 .legend label {
 	vertical-align: 50%;
 	margin-left: 6px;
+	margin-right: 10px;
 }
 
 .logoHeader {
 	overflow: auto;
-	/*margin-left: -150px;*/
 }
 .logoHeader img {
   float: left;
@@ -43,9 +43,6 @@
     min-width: 1080px;
 }*/
 .container {
-	/*min-width: 1200px;*/
-/*	margin-left: 50px;
-	margin-right: 50px;*/
 	margin-left: auto;
 	margin-right: auto;
 }

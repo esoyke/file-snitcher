@@ -1,35 +1,32 @@
 
 
 <template name="files">
-  <div class="legend">
-    <div><svg width="30" height="30">
-      <rect width="30" height="30" style="fill:green"/> 
-      Sorry, your browser does not support inline SVG.  
-      </svg> <label>New</label>
-    </div> 
-    <div><svg width="30" height="30">
-      <rect width="30" height="30" style="fill:yellow"/> 
-      Sorry, your browser does not support inline SVG.  
-      </svg> <label>Changed</label>
-    </div> 
-    <div><svg width="30" height="30">
-      <rect width="30" height="30" style="fill:red"/> 
-      Sorry, your browser does not support inline SVG.  
-      </svg> <label>Deleted</label>
-    </div> 
-    <div><svg width="30" height="30">
-      <rect width="30" height="30" style="fill:lightblue"/> 
-      Sorry, your browser does not support inline SVG.  
-      </svg> <label>Recreated</label>
-    </div> 
-  </div>
 
   <div class="container">
       <div class="logoHeader">
         <h1>File Snitcher</h1>
         <img src="/pointing.jpeg">
-      </div>
+      
 
+        <div class="legend">
+          <svg width="30" height="30">
+            <rect width="30" height="30" style="fill:green"/> 
+            Sorry, your browser does not support inline SVG.  
+            </svg> <label>New</label>
+          <svg width="30" height="30">
+            <rect width="30" height="30" style="fill:yellow"/> 
+            Sorry, your browser does not support inline SVG.  
+            </svg> <label>Changed</label>
+          <svg width="30" height="30">
+            <rect width="30" height="30" style="fill:red"/> 
+            Sorry, your browser does not support inline SVG.  
+            </svg> <label>Deleted</label>
+          <svg width="30" height="30">
+            <rect width="30" height="30" style="fill:lightblue"/> 
+            Sorry, your browser does not support inline SVG.  
+            </svg> <label>Recreated</label>       
+        </div>
+      </div>  
     <!-- TODO- enhance to pass desired watch directory to server
     <h2>Watching Folder:</h2>
     <input id='folderLoc' type='text' value={{watchLoc.val}}>-->    
@@ -42,10 +39,8 @@
               <th class="col-md-3">Path</th>
               <th class="col-md-2">Created On</th>
               <th class="col-md-2">Modified On</th>
-              <th class="col-md-2">Last Accessed</th>
-              <!-- <th>Type</th> -->
-              <th class="col-md-2">Deleted</th>
-              <th class="col-md-2">Users</th>
+              <th class="col-md-2">Deleted On</th>
+              <th class="col-md-2">Users Logged In</th>
             </tr>
           </thead>
           <tbody>
@@ -57,10 +52,9 @@
                   {{/if}}
                   {{_id}}
                 </td>                
-                <td>{{created_on}}</td>
-                <td>{{modified_on}}</td>
-                <td>{{accessed_on}}</td>
-                <td>{{deleted}}</td>
+                <td>{{simpleDate created_on}}</td>
+                <td>{{simpleDate modified_on}}</td>
+                <td>{{simpleDate deleted}}</td>
                 <td>{{displayUsers this}}</td>
               </tr>
             {{/each}}
