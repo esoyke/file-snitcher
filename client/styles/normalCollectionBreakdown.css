@@ -38,6 +38,9 @@
   float: left;
 }
 
+.watching {
+	overflow: auto;
+}
 /*html {
      Size of largest container or bigger 
     min-width: 1080px;

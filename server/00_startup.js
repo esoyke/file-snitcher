@@ -3,12 +3,11 @@
  * Startup method to generate data in our collections
  */
 Meteor.startup(function() {
-
   var log = console.log.bind(console);
 
   Meteor.methods({
           getWatchFolder: function () {
-              return '/tmp2';
+              return watchFolder;
           },
           /* returns listing of all files/dirs in the watchFolder */
           getFileListing: function() {
@@ -21,22 +20,25 @@ Meteor.startup(function() {
           },
           /* returns true if this item existed already at startup */
           isStartupFile: function(path){
-            // ignore the watch folder itself (needed if using fs.readdirSync)
-            // if(path===Meteor.call('getWatchFolder') ) return true;
-            // fs.readdirSync doesn't include dir name so you must strip it from search target
-            // return _.contains(startingFiles, path.substring(Meteor.call('getWatchFolder').length+1, path.length));
-            // console.log('checking if this existed at startup: '+ path);
             return _.contains(startingFiles, path);
-          },          
+          },       
+
   });
 
-   
-  var startingFiles = Meteor.call('getFileListing');
 
-  //temp EBS
-//  Session.set("folderLoc", "/tmp3");
-  // var initLoc = {_id:'2', val: '/tmp2'};
-  // WatchLocCollection.insert(initLoc);
+  /* monitor for location updates from the client */
+  WatchLocCollection.deny({
+    insert: function (userId, item) {
+      log('WatchLocCollection changed to '+item.location);
+      watchFolder = item.location;
+      //re-initialize pre-existing file listing
+      startingFiles = Meteor.call('getFileListing');
+    }
+  });   
+
+  var watchFolder = '/tmp2';
+
+  var startingFiles = Meteor.call('getFileListing');
 
   while (NormalCollection.find().count() < 1000) {
     var data = { created_on: new Date(), value: (Math.random() * 1000)};
@@ -64,3 +66,4 @@ Meteor.startup(function() {
 
   SyncedCron.start();
 });
+

@@ -1,18 +1,39 @@
 // npm install execSync
 sync = Npm.require('execSync');
 fs = Npm.require('fs');
+Fiber = Npm.require('fibers');
+
+Meteor.publish("watchLocation", function() {
+    console.log("watchLocation in collection: "+WatchLocCollection.find().location);
+    return WatchLocCollection.find();
+});
 
 Meteor.publish('files', function() {
   var self = this;
   
   var log = console.log.bind(console);
 
-  // TODO- make this thing dynamic, set from client. Would want to make the
-  // value specific to the user requesting it
-  // getFolder = function () {
-  //   Meteor.call('foo');
-  //  return '/tmp2';
-  // }
+  /* 
+  * Returns the user(s) logged into the system at time of the call (currently supports *nix only)
+  */
+  getUsers = function(){
+    var res = sync.exec("who| sed 's/|/ /' | awk '{print $1, $8}'|uniq");
+    var users = res.stdout.replace(/(\r\n|\n|\r)/gm,"");
+    return users.trim();
+  }
+
+  /* Persists activity to snitcher.log in user's Home dir */
+  writeLog = function(data) {
+    fs.appendFile(getUserHome()+"/snitcher.log", data+'\n', function(err) {
+        if(err) {
+            return console.log(err);
+        }
+    }); 
+  }
+  /* Find Home dir in platform agnostic manner */
+  getUserHome = function () {
+    return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+  }
 
   /*
    * TODO- allow specification of excluded directory(ies). For instance I don't
@@ -23,6 +44,28 @@ Meteor.publish('files', function() {
     ignored: /[\/\\]\./,
     persistent: true
   });
+
+
+  var watchLocation = Meteor.call('getWatchFolder');  
+  // until I figure out how to tell the watcher to re-load from within the startup method,
+  // just poll every few seconds to see if client changed the watch location
+  (function checkWatchLocation() {
+    Fiber(function() {
+      var tmp = Meteor.call('getWatchFolder');      
+      if(tmp !== watchLocation){
+        log('folder changed to '+tmp+', updating watcher..');
+        // this is doing nothing unless you refresh the browser?
+        watcher.close();
+        watcher = chokidar.watch(tmp, {
+          ignored: /[\/\\]\./,
+          persistent: true
+        });
+        writeLog('-- Watch location changed to '+watchLocation+' at '+Date());
+      }
+      watchLocation = tmp;
+      setTimeout( checkWatchLocation, 1000 );
+    }).run();
+  })();
 
   /*
    * We have to wrap the callback functions in Meteor.bindEnvironment() because
@@ -114,33 +157,6 @@ Meteor.publish('files', function() {
     watcher.close();
   });
 
-  /* 
-  * Returns the user(s) logged into the system at time of the call (currently supports *nix only)
-  */
-  getUsers = function(){
-    var res = sync.exec("who| sed 's/|/ /' | awk '{print $1, $8}'|uniq");
-    var users = res.stdout.replace(/(\r\n|\n|\r)/gm,"");
-    return users.trim();
-  }
-
-  /* Persists activity to snitcher.log in user's Home dir */
-  writeLog = function(data) {
-    fs.appendFile(getUserHome()+"/snitcher.log", data+'\n', function(err) {
-        if(err) {
-            return console.log(err);
-        }
-    }); 
-  }
-  /* Find Home dir in platform agnostic manner */
-  getUserHome = function () {
-    return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
-  }
 
 });
 
-
-// TODO- get this working or shitcan it. Also need to be sure the update 
-//to server only affects that user's session. Investigate server sessions.
-// Meteor.publish('watchLocation', function() {
-//    return WatchLocCollection.find();
-// });

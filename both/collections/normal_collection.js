@@ -1,3 +1,3 @@
 NormalCollection = new Meteor.Collection('normal_collection');
 
-//WatchLocCollection = new Meteor.Collection('watchLocation');
+WatchLocCollection = new Meteor.Collection('watchLocation');

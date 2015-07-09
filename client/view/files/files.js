@@ -2,7 +2,7 @@ var log = console.log.bind(console);
 
 Template.files.onCreated(function() {
   this.subscribe('files');
-  this.subscribe('watchLocation/all');
+  this.subscribe('watchLocation');///all');
 });
 
 // used to determine when watching started, only mark activities after this as 'new'
@@ -26,7 +26,6 @@ Template.files.helpers({
     var tmpChanged = new Date(file.changed);
     var tmpDeleted = new Date(file.deleted);
     // indicate file was re-created after deletion- can get rid of the recreated variable
-    //log('deleted: '+deleted+', changed: '+changed+', created_on: '+created_on);
     if(tmpDeleted && tmpChanged.getTime()>tmpDeleted.getTime()) return 'lightblue';
     if(file.deleted) return 'red';
     if(file.changed) return 'yellow';
@@ -46,20 +45,7 @@ Template.files.helpers({
       return file.loggedInUsers;      
     }
   },
-  // TODO- this isn't working yet
-  watchLoc: function() { 
-        var watchLocation = WatchLocation.findOne({_id:'123'});  //'userId':Meteor.userId()}); 
-        if (!watchLocation) { 
-                // Create one if there isn't already one 
-                watchLocation = {val:'/tmp4'}; 
-                WatchLocation.insert(watchLocation); 
-        } 
-        else {
-        	console.log('found val='+watchLocation.val);
-        }
-        return watchLocation; 
-  },
-  /* Wed Jul 08 2015 05:30:01 pm*/
+  /* Returns format:  Wed Jul 08 2015 05:30:01 pm*/
   simpleDate: function(dateIn) {
     if(!dateIn) return '';
     return moment(dateIn).format('ddd MMM DD YYYY hh:mm:ss a');
@@ -67,20 +53,16 @@ Template.files.helpers({
 
 });
 
-WatchLocation = new Meteor.Collection('watchLocation'); 
-
+/* If they change the watch location and hit Enter, propogate back to server */
 Template.files.events({
-  "keydown #folderLoc": function (event) {
+    'keyup input.folderLoc': function (event, template) {     
      var value = $(event.target).val();
      console.log(value);
-     //Session.set("folderLocation", value);
-     var watchLocation = WatchLocation.findOne({_id:'123'});//  //'userId':Meteor.userId()}); 
-    // if (!watchLocation) { 
-    // 	console.log('no location found, inserting...');
-    //         // Create one if there isn't already one 
-    //         watchLocation = {_id:'1', val:'/tmp6'}; 
-    //         WatchLocation.insert(watchLocation); 
-    // } 
-	WatchLocation.update('123', {$set: {val: value}});
+     if (event.which === 13){
+      WatchLocCollection.insert({location:value});
+      // For some reason the change is not taking effect until a refresh is done.
+      // Seems like a HACK but until I understand why, just manually refresh the browser 
+      location.reload(); 
+     }
   }
 });
