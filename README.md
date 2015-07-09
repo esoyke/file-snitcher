@@ -26,3 +26,4 @@ Clone repo, set desired watch directory in getWatchFolder() method in server/00_
 ## Issues:
 * Re-created files (file deleted then created) only reflecting change after a SECOND touch. Still investigating.
 * Might not display multiple logged-in users correctly (just saying this as this condition is yet to be tested).
+* File changes made when there is no active client session are cached until a client is created (the log). Also only Adds are recorded in these cases.
