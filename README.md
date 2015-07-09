@@ -19,7 +19,7 @@ Clone repo, set desired watch directory in getWatchFolder() method in server/00_
 
 ## TODO:
 * ~~Persist history, regardless of there being a client or not~~
-* Make watch directory configurable from client
+* ~~Make watch directory configurable from client~~
 * Allow specification of excluded sub-directories
 * Switch user listing to tooltips
 
