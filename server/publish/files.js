@@ -2,6 +2,8 @@
 sync = Npm.require('execSync');
 fs = Npm.require('fs');
 Fiber = Npm.require('fibers');
+path = Npm.require('path');
+
 
 Meteor.publish("watchLocation", function() {
     console.log("watchLocation in collection: "+WatchLocCollection.find().location);
@@ -17,7 +19,7 @@ Meteor.publish('files', function() {
   * Returns the user(s) logged into the system at time of the call (currently supports *nix only)
   */
   getUsers = function(){
-    var res = sync.exec("who| sed 's/|/ /' | awk '{print $1, $8}'|uniq");
+    var res = sync.exec("who|awk '{print $1, $8}'|uniq");
     var users = res.stdout.replace(/(\r\n|\n|\r)/gm,"");
     return users.trim();
   }
@@ -35,16 +37,38 @@ Meteor.publish('files', function() {
     return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
   }
 
-  /*
-   * TODO- allow specification of excluded directory(ies). For instance I don't
-   * care to see every file changed/deleted in JBoss' /tmp or /work dirs. This
-   * should be configurable by changing the ignored param of the chokidar watcher.
-   */
-  var watcher = chokidar.watch(Meteor.call('getWatchFolder'), {
-    ignored: /[\/\\]\./,
-    persistent: true
-  });
+  resetWatcher = function(){
+    // specify subfolder(s) to be ignored
+    ignores = Meteor.call('getIgnoreSubFolders');
+    ignorePath = "";
+    if(ignores.length>0){
+      _.map(ignores.split(','), function(data){
+        // log("ignore: "+data);
+        ignorePath+=Meteor.call('getWatchFolder')+'/'+data+'|';  // (trailing | won't hurt)
+      });
+      log('ignore sub folders: '+ignorePath);
+    }
+    return chokidar.watch(Meteor.call('getWatchFolder'), {
+    // boiler plate chokidar ignore that ignores dot '.' files
+    // ignored: /[\/\\]\./,
 
+    // this ignores the subfolders tmp and work
+    ignored: '/tmp2/tmp|/tmp2/work|',
+
+    // ignored: path.resolve(Meteor.call('getWatchFolder')+'/**/ignore.js'), 
+    // this works to ignore anything named work
+    //ignored: path.resolve(Meteor.call('getWatchFolder')+'/**/work'), 
+
+    persistent: true,
+
+    // if this is set true existing files will not be shown at all. Uncommenting it will show
+    // the existing at startup, but the work I did to scan the pre-existing files
+    // will prevent them from looking 'new'
+    //ignoreInitial: true
+  });
+  }
+
+  var watcher = resetWatcher();
 
   var watchLocation = Meteor.call('getWatchFolder');  
   // until I figure out how to tell the watcher to re-load from within the startup method,
@@ -55,11 +79,7 @@ Meteor.publish('files', function() {
       if(tmp !== watchLocation){
         log('folder changed to '+tmp+', updating watcher..');
         // this is doing nothing unless you refresh the browser?
-        watcher.close();
-        watcher = chokidar.watch(tmp, {
-          ignored: /[\/\\]\./,
-          persistent: true
-        });
+        watcher = resetWatcher();
         writeLog('-- Watch location changed to '+watchLocation+' at '+Date());
       }
       watchLocation = tmp;

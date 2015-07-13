@@ -2,7 +2,7 @@ var log = console.log.bind(console);
 
 Template.files.onCreated(function() {
   this.subscribe('files');
-  this.subscribe('watchLocation');///all');
+  this.subscribe('watchLocation');
 });
 
 // used to determine when watching started, only mark activities after this as 'new'
@@ -49,6 +49,11 @@ Template.files.helpers({
   simpleDate: function(dateIn) {
     if(!dateIn) return '';
     return moment(dateIn).format('ddd MMM DD YYYY hh:mm:ss a');
+  },
+  watching: function() {
+    //TODO would be a nice enhancement to make the sort order selectable from client input
+    log(WatchLocCollection.find({}));
+    return WatchLocCollection.find({});
   }
 
 });
@@ -59,7 +64,9 @@ Template.files.events({
      var value = $(event.target).val();
      console.log(value);
      if (event.which === 13){
-      WatchLocCollection.insert({location:value});
+       WatchLocCollection.insert({location:value});
+       //WatchLocation.insert({location:value});
+
       // For some reason the change is not taking effect until a refresh is done.
       // Seems like a HACK but until I understand why, just manually refresh the browser 
       location.reload(); 

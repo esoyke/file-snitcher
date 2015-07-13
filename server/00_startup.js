@@ -20,8 +20,12 @@ Meteor.startup(function() {
           },
           /* returns true if this item existed already at startup */
           isStartupFile: function(path){
-            return _.contains(startingFiles, path);
+            return false;
+            //return _.contains(startingFiles, path);
           },       
+          getIgnoreSubFolders: function(){
+            return ignoreSubFolders;
+          }
 
   });
 
@@ -37,7 +41,7 @@ Meteor.startup(function() {
   });   
 
   var watchFolder = '/tmp2';
-
+  var ignoreSubFolders = '';// CSV ex.: 'tmp,work';
   var startingFiles = Meteor.call('getFileListing');
 
   while (NormalCollection.find().count() < 1000) {
