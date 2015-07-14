@@ -15,7 +15,7 @@ Also, whereas the browser app will only show changes since you loaded the page, 
 ```
 <a name="usage"></a>
 ## Usage
-Clone repo, set desired watch directory in getWatchFolder() method in server/00_startup.js (initially set to /tmp2), fire up meteor and browse to localhost:3000. 
+Clone repo, fire up meteor and browse to localhost:3000. That's it.
 
 The app initializes to watch folder '/tmp2'. To change this enter the desired folder name (absolute path).
 

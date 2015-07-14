@@ -44,15 +44,20 @@
 
 .watching {
 	overflow: auto;
+	margin-top: -15px;
+	margin-left: 10px;
 }
 
 .ignoring {
 	overflow: auto;
+	margin-top: -15px;
+	margin-left: 10px;
+	margin-bottom: -10px;
 }
 
 .badgeWatch{
 	background: green;
-	font-size: 18px;
+	font-size: 16px;
 }
 .badgeIgnore{
 	background: red;
