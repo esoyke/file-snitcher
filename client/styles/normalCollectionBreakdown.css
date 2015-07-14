@@ -38,9 +38,18 @@
   float: left;
 }
 
+.infoEntry {
+	overflow: auto;
+}
+
 .watching {
 	overflow: auto;
 }
+
+.ignoring {
+	overflow: auto;
+}
+
 .badgeWatch{
 	background: green;
 	font-size: 18px;

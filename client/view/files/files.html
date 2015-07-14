@@ -7,7 +7,6 @@
         <h1>File Snitcher</h1>
         <a href='https://github.com/esoyke/file-snitcher'><img src="/pointing.jpeg"></a>
       
-
         <div class="legend">
           <svg width="30" height="30">
             <rect width="30" height="30" style="fill:green"/> 
@@ -28,20 +27,23 @@
         </div>
       </div>  
     <!-- TODO- enhance to pass desired watch directory to server-->
-    <div class="watching">
-      <h3>Watch Folder:</h3>
-      <input class='folderLoc' type='text'>
-      {{#each watching}}
-        <label class='badge badgeWatch'>{{location}}</label>
-      {{/each}}
-    </div>
-    
-    <div class="ignoring">
-      <h3>Ignore Subfolder(s):</h3>
-      <input class='ignoreFolderLoc' type='text'> 
-      {{#each ignores}}
-        <label class='ignoreLocation badge badgeIgnore' >{{location}}</label>
-      {{/each}}
+    <div class="infoEntry">
+      <div class="watching">
+        <h3>Watch Folder:</h3>
+        <input class='folderLoc' type='text'>
+        {{#each watching}}
+          <label class='badge badgeWatch'>{{location}}</label>
+        {{/each}}
+      </div>
+      
+      <div class="ignoring">
+        <h3>Ignore File(s)/Subfolder(s):</h3>
+        <input class='ignoreFolderLoc' type='text'> 
+        {{#each ignores}}
+          <label class='ignoreLocation badge badgeIgnore' >{{location}}</label>
+        {{/each}}
+        <h6>see: <a href='https://github.com/esoyke/file-snitcher#usage'>usage</a></h6>
+      </div>
     </div>
 
     <div class="row">

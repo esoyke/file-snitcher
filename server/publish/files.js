@@ -42,20 +42,27 @@ Meteor.publish('files', function() {
     ignorePath = "";
     if(ignores && ignores.length>0){
       _.map(ignores, function(data){
-        // add each element such as: /watchDir/**/ignoreDir1|/watchDir/**/ignoreDir2|
+        // add each element such as: /watchDir/**/ignoreDir1/|/watchDir/**/ignoreFile1|
         // (trailing pipe won't hurt)
-        ignorePath+=Meteor.call('getWatchFolder')+'/**/'+data+'|';  
+        // ignorePath+=Meteor.call('getWatchFolder')+'/**/'+data+'/*|';
+        // ignorePath+=Meteor.call('getWatchFolder')+'/**/'+data+'|';
+
+        ignorePath+=Meteor.call('getWatchFolder')+'/**/'+data+'|';
+        ignorePath+=Meteor.call('getWatchFolder')+'/'+data+'|';
+
       });
     }
     else //needs to be something
       ignorePath='blahblahblahblah';
-
+    log('watch: '+Meteor.call('getWatchFolder')+', ignore: '+ignorePath);
     return chokidar.watch(Meteor.call('getWatchFolder'), {
+//      ignored: '/tmp2/work/*|/tmp2/tmp/*',
       ignored: ignorePath,
       persistent: true,
       // if this is set true existing files will not be shown at all. Uncommenting it will show
       // the existing at startup, but the work I did to scan the pre-existing files
-      // will prevent them from looking 'new'
+      // will prevent them from looking 'new'. UPDATE: looks like it ignores pre-existing files
+      // completely, not what I want.
       //ignoreInitial: true
   });
   }

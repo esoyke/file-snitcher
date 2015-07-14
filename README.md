@@ -13,11 +13,14 @@ Also, whereas the browser app will only show changes since you loaded the page, 
   D Thu Jul 09 2015 14:25:04 GMT-0400 (EDT) /tmp2/foo (esoyke)
   A Thu Jul 09 2015 14:25:26 GMT-0400 (EDT) /tmp2/subdir/subdir2/foo (esoyke)
 ```
-
+<a name="usage"></a>
 ## Usage
 Clone repo, set desired watch directory in getWatchFolder() method in server/00_startup.js (initially set to /tmp2), fire up meteor and browse to localhost:3000. 
 
-The app initializes to watch folder '/tmp2'. To add a sub folder to ignore, enter a value in the input and hit Enter. To remove an ignored subfolder, click on it's badge.<br>
+The app initializes to watch folder '/tmp2'. To change this enter the desired folder name (absolute path).
+
+To ignore all files or subfolders named work and their contents, enter 'work'. Wildcards are supported: to ignore all file(s) and subfolders beginning with 'wor', enter 'wor*'. To ignore all files ending in txt enter '*.txt'.<br>
+To remove an ignored subfolder, click on it's badge.<br>
 <img src="public/snitcherDirs.png"/>
 
 ## TODO:
