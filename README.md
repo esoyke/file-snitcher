@@ -17,7 +17,7 @@ Also, whereas the browser app will only show changes since you loaded the page, 
 ## Usage
 Clone repo, set desired watch directory in getWatchFolder() method in server/00_startup.js (initially set to /tmp2), fire up meteor and browse to localhost:3000. 
 
-The app initializes to watch folder '/tmp2'. To add a sub folder to ignore, enter a value in the input and hit Enter. To remove an ignored subfolder, click on it's badge.
+The app initializes to watch folder '/tmp2'. To add a sub folder to ignore, enter a value in the input and hit Enter. To remove an ignored subfolder, click on it's badge.<br>
 <img src="public/snitcherDirs.png"/>
 
 ## TODO:
