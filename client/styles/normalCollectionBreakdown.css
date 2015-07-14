@@ -41,6 +41,15 @@
 .watching {
 	overflow: auto;
 }
+.badgeWatch{
+	background: green;
+	font-size: 18px;
+}
+.badgeIgnore{
+	background: red;
+	font-size: 14px;
+	cursor: pointer;
+}
 /*html {
      Size of largest container or bigger 
     min-width: 1080px;

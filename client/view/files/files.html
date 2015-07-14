@@ -5,7 +5,7 @@
   <div class="container">
       <div class="logoHeader">
         <h1>File Snitcher</h1>
-        <img src="/pointing.jpeg">
+        <a href='https://github.com/esoyke/file-snitcher'><img src="/pointing.jpeg"></a>
       
 
         <div class="legend">
@@ -29,9 +29,19 @@
       </div>  
     <!-- TODO- enhance to pass desired watch directory to server-->
     <div class="watching">
-      <h3>Watching Folder: {{watching.location}}</h3>
-      <!-- TODO: get initial value from server? -->
-      <input class='folderLoc' type='text'> <!-- value='/tmp2'>--> <!--value={{watchLoc.val}}> -->
+      <h3>Watch Folder:</h3>
+      <input class='folderLoc' type='text'>
+      {{#each watching}}
+        <label class='badge badgeWatch'>{{location}}</label>
+      {{/each}}
+    </div>
+    
+    <div class="ignoring">
+      <h3>Ignore Subfolder(s):</h3>
+      <input class='ignoreFolderLoc' type='text'> 
+      {{#each ignores}}
+        <label class='ignoreLocation badge badgeIgnore' >{{location}}</label>
+      {{/each}}
     </div>
 
     <div class="row">

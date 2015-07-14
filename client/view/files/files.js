@@ -52,24 +52,44 @@ Template.files.helpers({
   },
   watching: function() {
     //TODO would be a nice enhancement to make the sort order selectable from client input
-    log(WatchLocCollection.find({}));
-    return WatchLocCollection.find({});
+    //log('watching:');
+    //log(WatchLocCollection.find({}));
+    return WatchLocCollection.find({type:'watch'});
+  },
+  ignores: function(){
+   return WatchLocCollection.find({type:'ignore'}); 
   }
-
 });
 
 /* If they change the watch location and hit Enter, propogate back to server */
 Template.files.events({
     'keyup input.folderLoc': function (event, template) {     
      var value = $(event.target).val();
-     console.log(value);
      if (event.which === 13){
-       WatchLocCollection.insert({location:value});
-       //WatchLocation.insert({location:value});
-
+       console.log('watch folder: '+value);
+       // you cannot directly remove collection items from the client
+       Meteor.call('clearWatchData');
+       Meteor.call('clearIgnoreData');
+       WatchLocCollection.insert({location:value, type:'watch'});
       // For some reason the change is not taking effect until a refresh is done.
       // Seems like a HACK but until I understand why, just manually refresh the browser 
       location.reload(); 
      }
+  },
+  'keyup input.ignoreFolderLoc': function (event, template) {     
+      var value = $(event.target).val();
+      if (event.which === 13){
+        // don't insert duplicates
+        if(!WatchLocCollection.find({location:value, type:'ignore'}).count()>0) {          
+          console.log('Adding ignore folder: '+value);
+          WatchLocCollection.insert({location:value, type:'ignore'});
+          location.reload();         
+        }
+      }
+  },
+  'click .ignoreLocation': function (event, template){
+    log(this.location);
+    Meteor.call('clearIgnoreData', this.location);
+    location.reload(); 
   }
 });

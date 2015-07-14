@@ -1,4 +1,3 @@
-// npm install execSync
 sync = Npm.require('execSync');
 fs = Npm.require('fs');
 Fiber = Npm.require('fibers');
@@ -10,9 +9,9 @@ Meteor.publish("watchLocation", function() {
     return WatchLocCollection.find();
 });
 
+
 Meteor.publish('files', function() {
-  var self = this;
-  
+  var self = this;  
   var log = console.log.bind(console);
 
   /* 
@@ -38,55 +37,67 @@ Meteor.publish('files', function() {
   }
 
   resetWatcher = function(){
-    // specify subfolder(s) to be ignored
+    // specify subfolder(s) to be ignored if any
     ignores = Meteor.call('getIgnoreSubFolders');
     ignorePath = "";
-    if(ignores.length>0){
-      _.map(ignores.split(','), function(data){
-        // log("ignore: "+data);
-        ignorePath+=Meteor.call('getWatchFolder')+'/'+data+'|';  // (trailing | won't hurt)
+    if(ignores && ignores.length>0){
+      _.map(ignores, function(data){
+        // add each element such as: /watchDir/**/ignoreDir1|/watchDir/**/ignoreDir2|
+        // (trailing pipe won't hurt)
+        ignorePath+=Meteor.call('getWatchFolder')+'/**/'+data+'|';  
       });
-      log('ignore sub folders: '+ignorePath);
     }
+    else //needs to be something
+      ignorePath='blahblahblahblah';
+
     return chokidar.watch(Meteor.call('getWatchFolder'), {
-    // boiler plate chokidar ignore that ignores dot '.' files
-    // ignored: /[\/\\]\./,
-
-    // this ignores the subfolders tmp and work
-    ignored: '/tmp2/tmp|/tmp2/work|',
-
-    // ignored: path.resolve(Meteor.call('getWatchFolder')+'/**/ignore.js'), 
-    // this works to ignore anything named work
-    //ignored: path.resolve(Meteor.call('getWatchFolder')+'/**/work'), 
-
-    persistent: true,
-
-    // if this is set true existing files will not be shown at all. Uncommenting it will show
-    // the existing at startup, but the work I did to scan the pre-existing files
-    // will prevent them from looking 'new'
-    //ignoreInitial: true
+      ignored: ignorePath,
+      persistent: true,
+      // if this is set true existing files will not be shown at all. Uncommenting it will show
+      // the existing at startup, but the work I did to scan the pre-existing files
+      // will prevent them from looking 'new'
+      //ignoreInitial: true
   });
   }
 
   var watcher = resetWatcher();
 
   var watchLocation = Meteor.call('getWatchFolder');  
+  var ignoreLocations = Meteor.call('getIgnoreSubFolders');  
   // until I figure out how to tell the watcher to re-load from within the startup method,
-  // just poll every few seconds to see if client changed the watch location
+  // just poll every few seconds to see if client changed the watch or ignore locations
   (function checkWatchLocation() {
     Fiber(function() {
-      var tmp = Meteor.call('getWatchFolder');      
-      if(tmp !== watchLocation){
-        log('folder changed to '+tmp+', updating watcher..');
+      var tmpWatch = Meteor.call('getWatchFolder');      
+      var tmpIgnore = Meteor.call('getIgnoreSubFolders');      
+      if(tmpWatch !== watchLocation){
+        log('folder changed to '+tmpWatch+', updating watcher..');
         // this is doing nothing unless you refresh the browser?
         watcher = resetWatcher();
         writeLog('-- Watch location changed to '+watchLocation+' at '+Date());
       }
-      watchLocation = tmp;
-      setTimeout( checkWatchLocation, 1000 );
+      else if(tmpIgnore && ignoreLocations && !arraysIdentical(tmpIgnore,ignoreLocations)){
+        log('ignore subfolders changed to '+tmpIgnore+', updating watcher..');
+        // this is doing nothing unless you refresh the browser?
+        watcher = resetWatcher();
+        writeLog('-- Ignore locations changed to '+ignoreLocations+' at '+Date());
+      }
+      watchLocation = tmpWatch;
+      ignoreLocations = tmpIgnore;
+      setTimeout( checkWatchLocation, 3000 );
     }).run();
   })();
 
+  function arraysIdentical(a, b) {
+//      log('a.length='+a.length+', b.length='+b.length)
+      var i = a.length;
+      if (i != b.length) return false;
+      while (i--) {
+          //log(a[i].location+','+b[i].location);
+          if (a[i].location !== b[i].location) return false;
+      }
+      return true;
+  };
   /*
    * We have to wrap the callback functions in Meteor.bindEnvironment() because
    * all functions have to run withing a Fiber, and the callback here breaks
@@ -113,7 +124,7 @@ Meteor.publish('files', function() {
         writeLog('A '+Date()+' '+path+' ('+loggedInUsers+')');
       }
       else {
-        console.log('Discovered pre-existing file: '+path);
+        //console.log('Discovered pre-existing file: '+path);
       }
       // the reason we are not seeing a re-created file until it has been touched TWICE
       // is that for some weird reason the server is not publishing it the first time??
@@ -133,7 +144,7 @@ Meteor.publish('files', function() {
       writeLog('A '+Date()+' '+path+' ('+loggedInUsers+')');
     }
     else {
-      console.log('Discovered pre-existing dir: '+path);
+      //console.log('Discovered pre-existing dir: '+path);
     }
   }, function(err) { console.log(err); }));
 
