@@ -23,10 +23,10 @@ The app initializes to watch folder '/tmp2'. To add a sub folder to ignore, ente
 ## TODO:
 * ~~Persist history, regardless of there being a client or not~~
 * ~~Make watch directory configurable from client~~
-* Allow specification of excluded sub-directories
+* ~~Allow specification of excluded sub-directories~~
 * Switch user listing to tooltips
 
 ## Issues:
 * Re-created files (file deleted then created) only reflecting change after a SECOND touch. Still investigating.
-* Might not display multiple logged-in users correctly (just saying this as this condition is yet to be tested).
+* Might not display multiple logged-in users correctly (just saying this as this condition is yet to be tested on a multi-user server).
 * File changes made when there is no active client session are cached until a client is created (the log). Also only Adds are recorded in these cases.
