@@ -39,20 +39,20 @@
 }
 
 .infoEntry {
-	overflow: auto;
+	margin-top: -10px;
+	/*overflow: auto;*/
+	/*display: inline-block;*/
 }
 
 .watching {
 	overflow: auto;
-	margin-top: -15px;
+	/*margin-top: -25px;*/
 	margin-left: 10px;
 }
 
 .ignoring {
 	overflow: auto;
-	margin-top: -15px;
-	margin-left: 10px;
-	margin-bottom: -10px;
+	margin-left: 20px;
 }
 
 .badgeWatch{
@@ -74,5 +74,12 @@
 }
 
 .row {
-	margin-top: 20px;
+	/*margin-top: -5px;*/
+	/*  width: 100%;
+    text-align: center;*/
+}
+
+.block {
+    display: inline-block;
+    zoom: 1;
 }
