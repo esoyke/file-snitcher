@@ -76,34 +76,38 @@ Meteor.publish('files', function() {
   (function checkWatchLocation() {
     Fiber(function() {
       var tmpWatch = Meteor.call('getWatchFolder');      
-      var tmpIgnore = Meteor.call('getIgnoreSubFolders');      
+      var tmpIgnore = Meteor.call('getIgnoreSubFolders');   
+      // log('watch: '+watchLocation+'; ignore: '+ignoreLocations+'; tmpWatch: '+tmpWatch+'; tmpIgnore: '+tmpIgnore);   
       if(tmpWatch !== watchLocation){
         log('folder changed to '+tmpWatch+', updating watcher..');
         // this is doing nothing unless you refresh the browser?
         watcher = resetWatcher();
         writeLog('-- Watch location changed to '+watchLocation+' at '+Date());
       }
-      else if(tmpIgnore && ignoreLocations && !arraysIdentical(tmpIgnore,ignoreLocations)){
+      else if(!arraysIdentical(tmpIgnore,ignoreLocations)){
         log('ignore subfolders changed to '+tmpIgnore+', updating watcher..');
         // this is doing nothing unless you refresh the browser?
         watcher = resetWatcher();
-        writeLog('-- Ignore locations changed to '+ignoreLocations+' at '+Date());
+        writeLog('-- Ignore locations changed to '+tmpIgnore+' at '+Date());
       }
       watchLocation = tmpWatch;
       ignoreLocations = tmpIgnore;
-      setTimeout( checkWatchLocation, 3000 );
+      setTimeout( checkWatchLocation, 1000 );
     }).run();
   })();
 
+  /* returns true if arrays are identical*/
   function arraysIdentical(a, b) {
-//      log('a.length='+a.length+', b.length='+b.length)
-      var i = a.length;
-      if (i != b.length) return false;
-      while (i--) {
-          //log(a[i].location+','+b[i].location);
-          if (a[i].location !== b[i].location) return false;
-      }
+    if(!a && !b)
       return true;
+    if((!a && b) || (a && !b))
+        return false;
+    var i = a.length;
+    if (i != b.length) return false;
+    while (i--) {
+        if (a[i].location !== b[i].location) return false;
+    }
+    return true;
   };
   /*
    * We have to wrap the callback functions in Meteor.bindEnvironment() because
