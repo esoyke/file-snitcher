@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "graceful-chokidar": {
+      "version": "0.1.0",
+      "dependencies": {
+        "graceful-fs": {
+          "version": "3.0.8"
+        },
+        "recursive-readdir": {
+          "version": "0.0.2"
+        }
+      }
+    }
+  }
+}

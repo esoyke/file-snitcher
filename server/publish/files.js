@@ -2,7 +2,7 @@ sync = Npm.require('execSync');
 fs = Npm.require('fs');
 Fiber = Npm.require('fibers');
 path = Npm.require('path');
-
+gchokidar = Meteor.require('graceful-chokidar');
 
 Meteor.publish("watchLocation", function() {
     console.log("watchLocation in collection: "+WatchLocCollection.find().location);
@@ -36,6 +36,7 @@ Meteor.publish('files', function() {
     return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
   }
 
+  /* set the chokidar (actually graceful-chokidar) watcher on the desired directory */
   resetWatcher = function(){
     // specify subfolder(s) to be ignored if any
     ignores = Meteor.call('getIgnoreSubFolders');
@@ -44,18 +45,14 @@ Meteor.publish('files', function() {
       _.map(ignores, function(data){
         // add each element such as: /watchDir/**/ignoreDir1/|/watchDir/**/ignoreFile1|
         // (trailing pipe won't hurt)
-        // ignorePath+=Meteor.call('getWatchFolder')+'/**/'+data+'/*|';
-        // ignorePath+=Meteor.call('getWatchFolder')+'/**/'+data+'|';
-
         ignorePath+=Meteor.call('getWatchFolder')+'/**/'+data+'|';
         ignorePath+=Meteor.call('getWatchFolder')+'/'+data+'|';
-
       });
     }
     else //needs to be something
       ignorePath='blahblahblahblah';
     log('watch: '+Meteor.call('getWatchFolder')+', ignore: '+ignorePath);
-    return chokidar.watch(Meteor.call('getWatchFolder'), {
+    return gchokidar.watch(Meteor.call('getWatchFolder'), {
 //      ignored: '/tmp2/work/*|/tmp2/tmp/*',
       ignored: ignorePath,
       persistent: true,

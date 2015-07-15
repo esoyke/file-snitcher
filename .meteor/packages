@@ -21,3 +21,7 @@ percolatestudio:synced-cron
 velocity:chokidar
 lookback:tooltips
 momentjs:moment
+meteorhacks:npm
+
+
+npm-container
