@@ -19,7 +19,7 @@ Clone repo, fire up meteor and browse to localhost:3000. That's it.
 
 The app initializes to watch folder '/tmp2'. To change this enter the desired folder name (absolute path).
 
-To ignore all files or subfolders named work and their contents, enter 'work'. Wildcards are supported: to ignore all file(s) and subfolders beginning with 'wor', enter 'wor\*'. To ignore all files ending in txt enter '\*.txt'. To watch only for .txt files in the /tmp2 folder enter a watch location of /tmp2/*.txt. To include nested subfolders, enter a watch location of /tmp2/**/*.txt. The ignore automatically includes subfolders for you.
+To ignore all files or subfolders named work and their contents, enter 'work'. Wildcards are supported: to ignore all file(s) and subfolders beginning with 'wor', enter 'wor\*'. To ignore all files ending in txt enter '\*.txt'. To watch only for .txt files in the /tmp2 folder enter a watch location of /tmp2/\*.txt. To include nested subfolders, enter a watch location of /tmp2/\*\*/\*.txt. The ignore automatically includes subfolders for you.
 
 To remove an ignore pattern, click on it's badge.<br>
 <img src="public/snitcherDirs.png"/>
