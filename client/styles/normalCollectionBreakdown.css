@@ -8,7 +8,12 @@
 .deleted {
 	background: red;
 }
-
+.header {
+	margin-left: 3px;
+	margin-right: 3px;
+	border: 3px solid white;
+	box-shadow: 1px 1px 5px #888888;
+}
 .legend {
 	float: right;	
 	margin-left: 15px;
@@ -41,41 +46,43 @@
   height: 40px;
   margin-top: 15px;
 }
-
 .logoHeader h1 {
 	width: 220px;
   	float: left;
   	margin-left: 20px;
   	margin-top: 15px;
 }
-
 .infoEntry {
-	margin-top: -10px;
 	background-color: #F4F6F7;
-	margin-top: 5px;
 	padding-bottom: 5px;
+	/*padding-left: -35px;*/
 }
-
+.infoEntry h3 {
+	margin-top: 5px;
+}
 .watching {
 	overflow: auto;
-	margin-top: -15px;
-	margin-left: 35px;
+	margin-left: 15px;
 	padding-right: 5px;
+	padding-left: 5px;
+	border: 3px solid white;
+	box-shadow: 1px 1px 5px #888888;
 }
-
 .ignoring {
 	overflow: auto;
-	margin-left: 20px;
-	margin-top: -15px;
+	margin-left: 10px;
+	padding-left: 5px;
 	padding-right: 5px;
+	border: 3px solid white;
+	box-shadow: 1px 1px 5px #888888;
 }
-.ignoreTitle {
-	overflow: auto;
-	margin-left: 5px;
+.ignoring h3 {
+	margin-left: 15px;
 }
-.usage {
+.ignoring h6 {
+	margin-left: 20px;
+	margin-bottom: -10px;
 	margin-right: 15px;
-	margin-top: 30px;
 }
 input {
 	margin-right: 5px;

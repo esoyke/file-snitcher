@@ -1,6 +1,7 @@
 
 
 <template name="files">
+  <div class="header">
     <div class="logoHeader">
       <h1>File Snitcher</h1>
       <a href='https://github.com/esoyke/file-snitcher'><img src="/pointingTrans.png"></a>
@@ -25,30 +26,28 @@
       </div>
     </div>  
 
-    <!-- TODO- enhance to pass desired watch directory to server-->
-    <div class="row infoEntry">
+    <div class="infoEntry">
       <div class="block watching">
         <h3>Watch:</h3>
         <input class='folderLoc' type='text'>
         {{#each watching}}
           <label class='badge badgeWatch'>{{location}}</label>
         {{/each}}
-        <!-- <h6>&nbsp;</h6> cheat by adding a space to align with the ignore div -->
       </div>
       
       <div class="block ignoring">
-        <div class="row ignoreTitle">
+        <div class="row">
           <h3 class="floatLeft">Ignore:</h3>
-          <h6 class="floatRight usage">(<a href='https://github.com/esoyke/file-snitcher#usage'>usage</a>)</h6>
+          <h6 class="floatRight">(<a href='https://github.com/esoyke/file-snitcher#usage'>usage</a>)</h6>
         </div>
         <input class='ignoreFolderLoc' type='text'> 
         {{#each ignores}}
           <label class='ignoreLocation badge badgeIgnore' >{{location}}</label>
         {{/each}}
-        <!-- <h6>see: <a href='https://github.com/esoyke/file-snitcher#usage'>usage</a></h6> -->
       </div>
     </div>
-
+  </div>
+  
   <div class="container">      
 
 
