@@ -1,3 +1,6 @@
+@paleGrey: #F4F6F7;
+@darkGrey: #888888;
+
 .scroll-450 {
   height: 450px;
   overflow-y: auto;
@@ -12,7 +15,7 @@
 	margin-left: 3px;
 	margin-right: 3px;
 	border: 3px solid white;
-	box-shadow: 1px 1px 5px #888888;
+	box-shadow: 1px 1px 5px @darkGrey;
 }
 .legend {
 	float: right;	
@@ -22,7 +25,7 @@
 	padding-left: 10px;
 	padding-bottom: 3px;
 	border: 3px solid white;
-	box-shadow: 1px 1px 5px #888888;
+	box-shadow: 1px 1px 5px @darkGrey;
 }
 .legend svg {
 	margin-top: 10px;
@@ -37,7 +40,7 @@
 }
 .logoHeader {
 	overflow: auto;
-	background-color: #F4F6F7;
+	background-color: @paleGrey;
 	padding-bottom: 5px;
 }
 .logoHeader img {
@@ -53,7 +56,7 @@
   	margin-top: 15px;
 }
 .infoEntry {
-	background-color: #F4F6F7;
+	background-color: @paleGrey;
 	padding-bottom: 5px;
 	/*padding-left: -35px;*/
 }
@@ -63,18 +66,20 @@
 .watching {
 	overflow: auto;
 	margin-left: 15px;
+	padding-bottom: 5px;
 	padding-right: 5px;
 	padding-left: 5px;
 	border: 3px solid white;
-	box-shadow: 1px 1px 5px #888888;
+	box-shadow: 1px 1px 5px @darkGrey;
 }
 .ignoring {
 	overflow: auto;
 	margin-left: 10px;
+	padding-bottom: 5px;
 	padding-left: 5px;
 	padding-right: 5px;
 	border: 3px solid white;
-	box-shadow: 1px 1px 5px #888888;
+	box-shadow: 1px 1px 5px @darkGrey;
 }
 .ignoring h3 {
 	margin-left: 15px;
@@ -87,16 +92,16 @@
 input {
 	margin-right: 5px;
 }
-.badgeWatch{
-	background: green;
+.badgeWatch {
+	background: red;
 	font-size: 16px;
-	box-shadow: 2px 2px 5px #888888;
+	box-shadow: 2px 2px 5px @darkGrey;
 }
 .badgeIgnore{
 	background: red;
 	font-size: 16px;
 	cursor: pointer;
-	box-shadow: 2px 2px 5px #888888;
+	box-shadow: 2px 2px 5px @darkGrey;
 }
 .container {
 	margin-left: auto;
