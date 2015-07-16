@@ -2,7 +2,8 @@ sync = Npm.require('execSync');
 fs = Npm.require('fs');
 Fiber = Npm.require('fibers');
 path = Npm.require('path');
-gchokidar = Meteor.require('graceful-chokidar');
+// graceful-chokidar not respecting ignores?
+//gchokidar = Meteor.npmRequire('graceful-chokidar');
 
 Meteor.publish("watchLocation", function() {
     console.log("watchLocation in collection: "+WatchLocCollection.find().location);
@@ -43,7 +44,7 @@ Meteor.publish('files', function() {
     ignorePath = "";
     if(ignores && ignores.length>0){
       _.map(ignores, function(data){
-        // add each element such as: /watchDir/**/ignoreDir1/|/watchDir/**/ignoreFile1|
+        // add each element such as: /watchDir/ignorePattern1/|/watchDir/**/ignorePattern1|
         // (trailing pipe won't hurt)
         ignorePath+=Meteor.call('getWatchFolder')+'/**/'+data+'|';
         ignorePath+=Meteor.call('getWatchFolder')+'/'+data+'|';
@@ -52,7 +53,8 @@ Meteor.publish('files', function() {
     else //needs to be something
       ignorePath='blahblahblahblah';
     log('watch: '+Meteor.call('getWatchFolder')+', ignore: '+ignorePath);
-    return gchokidar.watch(Meteor.call('getWatchFolder'), {
+    // return gchokidar.watch(Meteor.call('getWatchFolder'), {
+    return chokidar.watch(Meteor.call('getWatchFolder'), {
 //      ignored: '/tmp2/work/*|/tmp2/tmp/*',
       ignored: ignorePath,
       persistent: true,
@@ -64,10 +66,11 @@ Meteor.publish('files', function() {
   });
   }
 
+  // can I refactor these globals to help testing?
   var watcher = resetWatcher();
+  var watchLocation = Meteor.call('getWatchFolder');
+  var ignoreLocations = Meteor.call('getIgnoreSubFolders');
 
-  var watchLocation = Meteor.call('getWatchFolder');  
-  var ignoreLocations = Meteor.call('getIgnoreSubFolders');  
   // until I figure out how to tell the watcher to re-load from within the startup method,
   // just poll every few seconds to see if client changed the watch or ignore locations
   (function checkWatchLocation() {
@@ -81,7 +84,8 @@ Meteor.publish('files', function() {
         watcher = resetWatcher();
         writeLog('-- Watch location changed to '+tmpWatch+' at '+Date());
       }
-      else if(!arraysIdentical(tmpIgnore,ignoreLocations)){
+      // else if(!arraysIdentical(tmpIgnore,ignoreLocations)){
+      else if(!_.isEqual(tmpIgnore,ignoreLocations)){  
         log('ignore subfolders changed to '+tmpIgnore+', updating watcher..');
         // this is doing nothing unless you refresh the browser?
         watcher = resetWatcher();
@@ -93,19 +97,6 @@ Meteor.publish('files', function() {
     }).run();
   })();
 
-  /* returns true if arrays are identical*/
-  function arraysIdentical(a, b) {
-    if(!a && !b)
-      return true;
-    if((!a && b) || (a && !b))
-        return false;
-    var i = a.length;
-    if (i != b.length) return false;
-    while (i--) {
-        if (a[i].location !== b[i].location) return false;
-    }
-    return true;
-  };
   /*
    * We have to wrap the callback functions in Meteor.bindEnvironment() because
    * all functions have to run withing a Fiber, and the callback here breaks
