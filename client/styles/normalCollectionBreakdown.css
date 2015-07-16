@@ -13,6 +13,11 @@
 	float: right;	
 	margin-left: 15px;
 	margin-top: 10px;
+	margin-right: 10px;
+	padding-left: 10px;
+	padding-bottom: 3px;
+	border: 3px solid white;
+	box-shadow: 1px 1px 5px #888888;
 }
 .legend svg {
 	margin-top: 10px;
@@ -20,66 +25,88 @@
 .legend label {
 	vertical-align: 50%;
 	margin-left: 6px;
-	margin-right: 10px;
+	margin-right: 20px;
 }
-
+.border {
+	border: 1px solid black;
+}
 .logoHeader {
 	overflow: auto;
+	background-color: #F4F6F7;
+	padding-bottom: 5px;
 }
 .logoHeader img {
   float: left;
   width: 75px;
   height: 40px;
-  margin-top: 17px;
+  margin-top: 15px;
 }
 
 .logoHeader h1 {
 	width: 220px;
-  float: left;
+  	float: left;
+  	margin-left: 20px;
+  	margin-top: 15px;
 }
 
 .infoEntry {
 	margin-top: -10px;
-	/*overflow: auto;*/
-	/*display: inline-block;*/
+	background-color: #F4F6F7;
+	margin-top: 5px;
+	padding-bottom: 5px;
 }
 
 .watching {
 	overflow: auto;
-	/*margin-top: -25px;*/
-	margin-left: 10px;
+	margin-top: -15px;
+	margin-left: 35px;
+	padding-right: 5px;
 }
 
 .ignoring {
 	overflow: auto;
 	margin-left: 20px;
+	margin-top: -15px;
+	padding-right: 5px;
 }
-
+.ignoreTitle {
+	overflow: auto;
+	margin-left: 5px;
+}
+.usage {
+	margin-right: 15px;
+	margin-top: 30px;
+}
+input {
+	margin-right: 5px;
+}
 .badgeWatch{
 	background: green;
 	font-size: 16px;
+	box-shadow: 2px 2px 5px #888888;
 }
 .badgeIgnore{
 	background: red;
-	font-size: 14px;
+	font-size: 16px;
 	cursor: pointer;
+	box-shadow: 2px 2px 5px #888888;
 }
-/*html {
-     Size of largest container or bigger 
-    min-width: 1080px;
-}*/
 .container {
 	margin-left: auto;
 	margin-right: auto;
 }
-
-.row {
-	/*margin-top: -5px;*/
-	/*  width: 100%;
-    text-align: center;*/
+.fileList {
+	margin-top: 10px;
 }
-
+.row {
+}
 .block {
     display: inline-block;
     zoom: 1;
+}
+.floatLeft {
+	float: left;
+}
+.floatRight {
+	float: right;
 }

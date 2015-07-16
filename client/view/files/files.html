@@ -1,31 +1,30 @@
 
 
 <template name="files">
+    <div class="logoHeader">
+      <h1>File Snitcher</h1>
+      <a href='https://github.com/esoyke/file-snitcher'><img src="/pointingTrans.png"></a>
+    
+      <div class="legend">
+        <svg width="30" height="30">
+          <rect width="30" height="30" style="fill:green"/> 
+          Sorry, your browser does not support inline SVG.  
+          </svg> <label>Added</label>
+        <svg width="30" height="30">
+          <rect width="30" height="30" style="fill:yellow"/> 
+          Sorry, your browser does not support inline SVG.  
+          </svg> <label>Changed</label>
+        <svg width="30" height="30">
+          <rect width="30" height="30" style="fill:red"/> 
+          Sorry, your browser does not support inline SVG.  
+          </svg> <label>Deleted</label>
+        <svg width="30" height="30">
+          <rect width="30" height="30" style="fill:lightblue"/> 
+          Sorry, your browser does not support inline SVG.  
+          </svg> <label>Recreated</label>       
+      </div>
+    </div>  
 
-  <div class="container">
-      <div class="logoHeader">
-        <h1>File Snitcher</h1>
-        <a href='https://github.com/esoyke/file-snitcher'><img src="/pointing.jpeg"></a>
-      
-        <div class="legend">
-          <svg width="30" height="30">
-            <rect width="30" height="30" style="fill:green"/> 
-            Sorry, your browser does not support inline SVG.  
-            </svg> <label>Added</label>
-          <svg width="30" height="30">
-            <rect width="30" height="30" style="fill:yellow"/> 
-            Sorry, your browser does not support inline SVG.  
-            </svg> <label>Changed</label>
-          <svg width="30" height="30">
-            <rect width="30" height="30" style="fill:red"/> 
-            Sorry, your browser does not support inline SVG.  
-            </svg> <label>Deleted</label>
-          <svg width="30" height="30">
-            <rect width="30" height="30" style="fill:lightblue"/> 
-            Sorry, your browser does not support inline SVG.  
-            </svg> <label>Recreated</label>       
-        </div>
-      </div>  
     <!-- TODO- enhance to pass desired watch directory to server-->
     <div class="row infoEntry">
       <div class="block watching">
@@ -34,20 +33,26 @@
         {{#each watching}}
           <label class='badge badgeWatch'>{{location}}</label>
         {{/each}}
-        <h6>&nbsp;</h6> <!-- cheat by adding a space to align with the ignore div -->
+        <!-- <h6>&nbsp;</h6> cheat by adding a space to align with the ignore div -->
       </div>
       
       <div class="block ignoring">
-        <h3>Ignore:</h3>
+        <div class="row ignoreTitle">
+          <h3 class="floatLeft">Ignore:</h3>
+          <h6 class="floatRight usage">(<a href='https://github.com/esoyke/file-snitcher#usage'>usage</a>)</h6>
+        </div>
         <input class='ignoreFolderLoc' type='text'> 
         {{#each ignores}}
           <label class='ignoreLocation badge badgeIgnore' >{{location}}</label>
         {{/each}}
-        <h6>see: <a href='https://github.com/esoyke/file-snitcher#usage'>usage</a></h6>
+        <!-- <h6>see: <a href='https://github.com/esoyke/file-snitcher#usage'>usage</a></h6> -->
       </div>
     </div>
 
-    <div class="row">
+  <div class="container">      
+
+
+    <div class="row fileList">
       <div class="col-md-12">
         <table class="table table-condensed table-striped">
           <thead>
