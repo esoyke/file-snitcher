@@ -79,7 +79,7 @@ Meteor.publish('files', function() {
         log('folder changed to '+tmpWatch+', updating watcher..');
         // this is doing nothing unless you refresh the browser?
         watcher = resetWatcher();
-        writeLog('-- Watch location changed to '+watchLocation+' at '+Date());
+        writeLog('-- Watch location changed to '+tmpWatch+' at '+Date());
       }
       else if(!arraysIdentical(tmpIgnore,ignoreLocations)){
         log('ignore subfolders changed to '+tmpIgnore+', updating watcher..');

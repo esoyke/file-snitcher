@@ -53,8 +53,7 @@
           <thead>
             <tr data-tooltip="TOOL TIP!">
               <th class="col-md-3">Path</th>
-              <th class="col-md-2">Created On</th>
-              <th class="col-md-2">Modified On</th>
+              <th class="col-md-2">Created/Modified On</th>
               <th class="col-md-2">Deleted On</th>
               <th class="col-md-2">Users Logged In</th>
             </tr>
@@ -68,7 +67,6 @@
                   {{/if}}
                   {{_id}}
                 </td>                
-                <td>{{simpleDate created_on}}</td>
                 <td>{{simpleDate modified_on}}</td>
                 <td>{{simpleDate deleted}}</td>
                 <td>{{displayUsers this}}</td>
